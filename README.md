@@ -1,67 +1,85 @@
-# California House Price Prediction
+# California House Price Prediction App
 
-This project predicts median house values in California districts using various features like location, number of rooms, and income. It utilizes **Ridge Regression** with hyperparameter tuning and advanced feature engineering to achieve accurate predictions.
+This project is a full-stack application that predicts median house values in California districts. It features a Machine Learning model exposed via a Flask API and a modern React frontend.
 
-## 📂 Project Structure
+## 🏗️ Architecture
 
-- `House_Price_Prediction.ipynb`: The main Jupyter Notebook containing EDA, preprocessing, modeling, and evaluation.
-- `predict.py`: A script to demonstrate how to use the trained model for making new predictions.
-- `verify_model.py`: A script to verify the model's performance and logic.
-- `generate_notebook.py`: Script used to generate the notebook programmatically.
-- `california_housing_final.pkl`: The saved trained model (Ridge Regression).
-- `Data_file - data_file.csv`: The dataset used for training and testing.
-- `requirements.txt`: List of dependencies.
+- **Backend:** Flask (Python) with Scikit-Learn. Handles model inference and data processing.
+- **Frontend:** React + Vite + TailwindCSS. Provides a user-friendly interface for uploading data and viewing predictions.
+- **Model:** Ridge Regression pipeline with feature engineering.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-Ensure you have Python installed. Install the required dependencies:
+- Python 3.12+
+- Node.js & npm
 
-```bash
-pip install -r requirements.txt
-```
+### Installation
 
-### Running the Analysis
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd <repository-folder>
+    ```
 
-You can open the Jupyter Notebook to view the full analysis, visualizations, and model development process:
+2.  **Setup Backend:**
+    ```bash
+    # Create virtual environment (optional but recommended)
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-```bash
-jupyter notebook House_Price_Prediction.ipynb
-```
+    # Install dependencies
+    pip install -r backend/requirements.txt
+    ```
 
-### Making Predictions
+3.  **Setup Frontend:**
+    ```bash
+    cd frontend
+    npm install
+    cd ..
+    ```
 
-To see the model in action and predict the price of a sample house, run:
+4.  **Environment Variables:**
+    - Copy `.env.example` to `.env` in the root directory if needed, or set variables manually.
+    - Default `.env` is provided for local development.
 
-```bash
-python predict.py
-```
+### Running Locally
 
-### Verifying Performance
+1.  **Start the Backend:**
+    ```bash
+    python app.py
+    ```
+    The backend runs on `http://localhost:5000`.
 
-To verify the model's metrics (RMSE, R2 Score) and ensure everything is working correctly:
+2.  **Start the Frontend:**
+    ```bash
+    cd frontend
+    npm run dev
+    ```
+    The frontend runs on `http://localhost:5173`.
 
-```bash
-python verify_model.py
-```
+3.  **Use the App:**
+    - Open `http://localhost:5173` in your browser.
+    - Upload a CSV or JSON file containing housing data.
+    - View predicted prices and visualizations.
 
-## 📊 Model Performance
+## 📦 Deployment
 
-The model uses **Ridge Regression** with a unified pipeline including:
-- **Imputation**: Median strategy for missing values.
-- **Feature Engineering**: Added features like `rooms_per_household`, `bedrooms_per_room`, `population_per_household`.
-- **Scaling**: StandardScaler.
-- **One-Hot Encoding**: For `ocean_proximity`.
+This app is configured for deployment on **Render**.
+See [DEPLOY.md](DEPLOY.md) for detailed deployment instructions.
 
-**Performance Metrics (Test Set):**
-- **RMSE**: ~69,127
-- **R2 Score**: ~0.6353
+## 📂 Project Structure
 
-## 🛠️ Built With
+- `backend/`: Flask application and API logic.
+- `frontend/`: React application source code.
+- `model.pkl`: The trained machine learning model.
+- `scripts/`: Utility scripts (verification, etc.).
+- `render.yaml`: Infrastructure as Code for Render deployment.
 
-- Python
-- Pandas, NumPy
-- Scikit-Learn
-- Matplotlib, Seaborn
-- Jupyter Notebook
+## 📊 Model Details
+
+The model uses **Ridge Regression** with:
+- **Imputation**: Median strategy.
+- **Feature Engineering**: `rooms_per_household`, `bedrooms_per_room`, `population_per_household`.
+- **Performance**: RMSE ~69k, R2 ~0.64.
