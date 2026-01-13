@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.env
+.DS_Store
+*.pkl
+!model.pkl

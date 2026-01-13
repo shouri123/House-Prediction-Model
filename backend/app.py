@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import pickle
+import joblib
 import logging
 
 # Configure logging
@@ -35,8 +35,7 @@ def load_model():
             logger.error(f"Model file not found at {MODEL_PATH}")
             return False
         
-        with open(MODEL_PATH, 'rb') as f:
-            model = pickle.load(f)
+        model = joblib.load(MODEL_PATH)
         
         logger.info("Model loaded successfully.")
         return True
@@ -134,11 +133,14 @@ def predict():
         if not is_valid:
             return jsonify({'error': error_msg}), 400
 
-        # Handle missing values (simple drop or fill, depending on requirements)
-        # Note: The model pipeline likely handles imputation, but we should ensure
-        # we aren't passing completely empty rows if that's a concern.
-        # For now, we pass the data as-is to the model pipeline.
-        
+        # Feature Engineering (must match verify_model.py)
+        if 'rooms_per_household' not in df.columns:
+            df['rooms_per_household'] = df['total_rooms'] / df['households']
+        if 'bedrooms_per_room' not in df.columns:
+            df['bedrooms_per_room'] = df['total_bedrooms'] / df['total_rooms']
+        if 'population_per_household' not in df.columns:
+            df['population_per_household'] = df['population'] / df['households']
+
         # Predict
         predictions = model.predict(df)
         
@@ -162,4 +164,5 @@ def predict():
         return jsonify({'error': f"An error occurred during processing: {str(e)}"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)
