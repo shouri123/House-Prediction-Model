@@ -12,17 +12,13 @@ services:
       - key: FLASK_DEBUG
         value: false
 
-  # Frontend Static Site
-  - type: static
+  # Frontend Static Site (Served as Web Service)
+  - type: web
     name: housing-price-frontend
     runtime: node
     region: oregon
     buildCommand: cd frontend && npm install && npm run build
-    publishDir: frontend/dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+    startCommand: cd frontend && npx serve -s dist -l $PORT
     envVars:
       - key: VITE_API_URL
         fromService:
