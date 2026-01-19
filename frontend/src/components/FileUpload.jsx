@@ -45,7 +45,10 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
         formData.append('file', file);
 
         try {
-            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            let API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            if (API_URL && !API_URL.startsWith('http')) {
+                API_URL = `https://${API_URL}`;
+            }
             const response = await axios.post(`${API_URL}/predict`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

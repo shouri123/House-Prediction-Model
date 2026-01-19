@@ -24,4 +24,4 @@ services:
         fromService:
           type: web
           name: housing-price-backend
-          property: url
+          property: host
