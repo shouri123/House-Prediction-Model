@@ -1,0 +1,14 @@
+{
+    "functions": {
+        "backend/app.py": {
+            "includeFiles": "model.pkl",
+            "excludeFiles": "frontend/**"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/backend/app.py"
+        }
+    ]
+}
