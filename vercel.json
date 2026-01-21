@@ -1,20 +1,20 @@
 {
     "version": 2,
+    "buildCommand": "npm run build",
     "builds": [
         {
             "src": "api/index.py",
             "use": "@vercel/python",
             "config": {
                 "maxLambdaSize": "15mb",
-                "runtime": "python3.9",
-                "includeFiles": "model.pkl"
+                "runtime": "python3.11"
             }
         },
         {
-            "src": "frontend/package.json",
+            "src": "package.json",
             "use": "@vercel/static-build",
             "config": {
-                "distDir": "dist"
+                "distDir": "frontend/dist"
             }
         }
     ],
@@ -28,7 +28,8 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/frontend/index.html"
+            "dest": "/frontend/dist/index.html"
         }
-    ]
+    ],
+    "outputDirectory": "frontend/dist"
 }
