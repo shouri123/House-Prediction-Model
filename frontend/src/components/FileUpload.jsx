@@ -3,6 +3,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import API_BASE_URL from '../config';
 
 export function cn(...inputs) {
     return twMerge(clsx(inputs));
@@ -45,11 +46,7 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
         formData.append('file', file);
 
         try {
-            let API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            if (API_URL && !API_URL.startsWith('http')) {
-                API_URL = `https://${API_URL}`;
-            }
-            const response = await axios.post(`${API_URL}/predict`, formData, {
+            const response = await axios.post(`${API_BASE_URL}/predict`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

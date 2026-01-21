@@ -3,6 +3,7 @@ import FileUpload from './components/FileUpload';
 import PredictionResults from './components/PredictionResults';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import API_BASE_URL from './config';
 
 function App() {
   const [results, setResults] = useState(null);
@@ -12,7 +13,7 @@ function App() {
   useEffect(() => {
     const checkHealth = async () => {
       try {
-        await axios.get('http://localhost:5000/health');
+        await axios.get(`${API_BASE_URL}/health`);
         setBackendStatus('connected');
       } catch (error) {
         console.error('Backend health check failed:', error);
@@ -42,13 +43,13 @@ function App() {
       {/* Connection Status Badge */}
       <div className="absolute top-4 right-4 z-50">
         <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-medium border ${backendStatus === 'connected'
-            ? 'bg-green-500/10 border-green-500/50 text-green-400'
-            : backendStatus === 'disconnected'
-              ? 'bg-red-500/10 border-red-500/50 text-red-400'
-              : 'bg-yellow-500/10 border-yellow-500/50 text-yellow-400'
+          ? 'bg-green-500/10 border-green-500/50 text-green-400'
+          : backendStatus === 'disconnected'
+            ? 'bg-red-500/10 border-red-500/50 text-red-400'
+            : 'bg-yellow-500/10 border-yellow-500/50 text-yellow-400'
           }`}>
           <div className={`w-2 h-2 rounded-full ${backendStatus === 'connected' ? 'bg-green-500 animate-pulse' :
-              backendStatus === 'disconnected' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'
+            backendStatus === 'disconnected' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'
             }`}></div>
           <span>
             {backendStatus === 'connected' ? 'Backend Connected' :
