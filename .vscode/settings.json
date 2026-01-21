@@ -1,5 +1,6 @@
 {
     "css.lint.unknownAtRules": "ignore",
     "scss.lint.unknownAtRules": "ignore",
-    "less.lint.unknownAtRules": "ignore"
+    "less.lint.unknownAtRules": "ignore",
+    "coderabbit.selfHostedUrl": "dnNjb2RlOi8vY29kZXJhYmJpdC5jb2RlcmFiYml0LXZzY29kZS9hdXRoLWNhbGxiYWNrP2NvZGU9MWE0MzllNTA1MTY4NDY3NmM4YWEmc3RhdGU9OTIzNzI1ZTctODhiZC00Mjg3LTg1YmMtNGQ3OWNhZWY2OWZiJnByb3ZpZGVyPWdpdGh1YiZzZWxmSG9zdGVkRG9tYWluPSZyZWRpcmVjdF91cmk9"
 }
