@@ -1,14 +1,35 @@
 {
-    "functions": {
-        "api/index.py": {
-            "includeFiles": "model.pkl",
-            "excludeFiles": "frontend/**"
-        }
-    },
-    "rewrites": [
+    "version": 2,
+    "buildCommand": "npm run build",
+    "builds": [
         {
-            "source": "/api/(.*)",
-            "destination": "/api/index.py"
+            "src": "api/index.py",
+            "use": "@vercel/python",
+            "config": {
+                "maxLambdaSize": "15mb",
+                "runtime": "python3.11"
+            }
+        },
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "frontend/dist"
+            }
         }
-    ]
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/index.py"
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/frontend/dist/index.html"
+        }
+    ],
+    "outputDirectory": "frontend/dist"
 }

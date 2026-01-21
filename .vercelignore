@@ -1,0 +1,11 @@
+node_modules
+frontend/node_modules
+__pycache__
+*.pyc
+.vscode
+.git
+verification_success.png
+House_Price_Prediction.ipynb
+test_*.py
+verify_*.py
+scripts/
