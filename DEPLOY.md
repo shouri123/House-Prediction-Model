@@ -41,3 +41,30 @@ This application is configured for deployment on [Render](https://render.com).
 - **Rewrite Rules:** Source `/*`, Destination `/index.html`
 - **Environment Variables:**
     - `VITE_API_URL`: The URL of your deployed backend (e.g., `https://housing-price-backend.onrender.com`)
+
+## Vercel Deployment
+
+This project is also configured for deployment on [Vercel](https://vercel.com).
+
+### One-Click Deployment
+
+1.  **Import Project:**
+    - Go to your Vercel Dashboard.
+    - Click **Add New...** -> **Project**.
+    - Import this repository.
+
+2.  **Configuration:**
+    - Vercel will automatically detect the `vercel.json` configuration.
+    - **Framework Preset:** Select "Other" or let it auto-detect.
+    - **Root Directory:** `./` (default).
+
+3.  **Environment Variables:**
+    - Add any necessary environment variables in the Vercel project settings.
+    - `VITE_API_URL`: Optional. If not set, the frontend will use the relative path `/api` which works for same-domain deployments (like this monorepo setup).
+
+4.  **Deploy:**
+    - Click **Deploy**.
+
+### Notes
+- **Serverless Function Size:** The `maxLambdaSize` is set to **50mb** in `vercel.json` to accommodate the Machine Learning dependencies (pandas, scikit-learn, etc.).
+- **Monorepo Structure:** The frontend (static site) and backend (serverless functions) are deployed together. The `api` directory is handled as serverless functions, and the `frontend` directory is built as a static site.

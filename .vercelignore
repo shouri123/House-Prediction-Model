@@ -9,3 +9,8 @@ House_Price_Prediction.ipynb
 test_*.py
 verify_*.py
 scripts/
+*.md
+*.ipynb
+render.yaml
+.env*
+*.log
