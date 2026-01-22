@@ -39,34 +39,38 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
     };
 
     const handleFile = async (file) => {
-        if (!file) return;
+    if (!file) return;
 
-        onUploadStart();
-        const formData = new FormData();
-        formData.append('file', file);
+    onUploadStart();
+    const formData = new FormData();
+    formData.append('file', file);
 
-        try {
-            const response = await axios.post(`${API_BASE_URL}/predict`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            let data = response.data;
-            if (typeof data === 'string') {
-                try {
-                    data = JSON.parse(data);
-                } catch (e) {
-                    console.error('Error parsing response data:', e);
-                }
+    try {
+        // Use relative path '/api' for Vercel deployment
+        let API_URL = import.meta.env.VITE_API_URL || '/api';
+        
+        // Remove the http/https prefix logic since we're using relative paths
+        const response = await axios.post(`${API_URL}/predict`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        let data = response.data;
+        if (typeof data === 'string') {
+            try {
+                data = JSON.parse(data);
+            } catch (e) {
+                console.error('Error parsing response data:', e);
             }
-            onUploadSuccess(data);
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            const errorMessage = error.response?.data?.error || 'Error uploading file. Please try again.';
-            alert(errorMessage);
-            onUploadSuccess(null); // Stop loading state
         }
-    };
+        onUploadSuccess(data);
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        const errorMessage = error.response?.data?.error || 'Error uploading file. Please try again.';
+        alert(errorMessage);
+        onUploadSuccess(null);
+    }
+};
 
     return (
         <div className="w-full max-w-xl mx-auto mt-10">

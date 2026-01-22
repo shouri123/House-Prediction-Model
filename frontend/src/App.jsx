@@ -10,21 +10,23 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [backendStatus, setBackendStatus] = useState('checking'); // 'checking', 'connected', 'disconnected'
 
-  useEffect(() => {
-    const checkHealth = async () => {
-      try {
-        await axios.get(`${API_BASE_URL}/health`);
-        setBackendStatus('connected');
-      } catch (error) {
-        console.error('Backend health check failed:', error);
-        setBackendStatus('disconnected');
-      }
-    };
+useEffect(() => {
+  const checkHealth = async () => {
+    try {
+      // Use relative path for Vercel deployment
+      const API_URL = import.meta.env.VITE_API_URL || '/api';
+      await axios.get(`${API_URL}/health`);
+      setBackendStatus('connected');
+    } catch (error) {
+      console.error('Backend health check failed:', error);
+      setBackendStatus('disconnected');
+    }
+  };
 
-    checkHealth();
-    const interval = setInterval(checkHealth, 5000); // Check every 5 seconds
-    return () => clearInterval(interval);
-  }, []);
+  checkHealth();
+  const interval = setInterval(checkHealth, 5000);
+  return () => clearInterval(interval);
+}, []);
 
   const handleUploadStart = () => {
     setLoading(true);
