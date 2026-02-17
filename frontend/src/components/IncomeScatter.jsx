@@ -6,9 +6,10 @@ import {
 import { calculateCorrelation, calculateTrendLine, formatCurrency } from '../utils';
 
 const IncomeScatter = ({ scatterData }) => {
-    if (!scatterData || !scatterData.x || !scatterData.y) return null;
-
     const { chartData, trendPoints, correlation } = useMemo(() => {
+        if (!scatterData || !scatterData.x || !scatterData.y) {
+            return { chartData: [], trendPoints: [], correlation: 0 };
+        }
         const x = scatterData.x;
         const y = scatterData.y;
         const chartData = x.map((xi, i) => ({ income: xi, price: y[i] }));
@@ -24,6 +25,8 @@ const IncomeScatter = ({ scatterData }) => {
 
         return { chartData, trendPoints, correlation: corr };
     }, [scatterData]);
+
+    if (!scatterData || !scatterData.x || !scatterData.y) return null;
 
     const combinedData = chartData.map((d) => {
         const trendMatch = trendPoints.find((t) => t.income === d.income);
@@ -89,3 +92,4 @@ const IncomeScatter = ({ scatterData }) => {
 };
 
 export default IncomeScatter;
+
