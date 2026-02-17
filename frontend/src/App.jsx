@@ -112,17 +112,17 @@ function App() {
                 </div>
             </div>
 
-            <main className="relative container mx-auto px-4 py-8 max-w-7xl">
+            <main className="relative container mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 max-w-7xl">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center space-y-3 mb-8"
+                    className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8"
                 >
-                    <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-2">
                         House Price Predictor
                     </h1>
-                    <p className="text-base text-gray-400 max-w-xl mx-auto">
+                    <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto px-4">
                         Upload housing data and get instant ML-powered predictions with interactive analytics
                     </p>
                 </motion.div>
@@ -151,18 +151,19 @@ function App() {
                         className="mt-10"
                     >
                         {/* Tab Navigation */}
-                        <div className="flex flex-wrap gap-2 mb-6 p-1 bg-gray-800/40 rounded-2xl border border-gray-700/30">
+                        <div className="tab-scroll flex gap-1.5 sm:gap-2 mb-4 sm:mb-6 p-1 bg-gray-800/40 rounded-xl sm:rounded-2xl border border-gray-700/30">
                             {TABS.map((tab) => (
                                 <button
                                     key={tab.key}
                                     onClick={() => setActiveTab(tab.key)}
-                                    className={`flex-1 min-w-[100px] px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                                    className={`flex-shrink-0 sm:flex-1 min-w-0 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                                         activeTab === tab.key
                                             ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                                             : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/30'
                                     }`}
                                 >
-                                    {tab.label}
+                                    <span className="sm:hidden">{tab.icon}</span>
+                                    <span className="hidden sm:inline">{tab.label}</span>
                                 </button>
                             ))}
                         </div>

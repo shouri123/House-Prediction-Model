@@ -45,10 +45,10 @@ const MapView = ({ data, outlierIndices = [] }) => {
     ];
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6">
-            <h3 className="text-lg font-semibold text-white mb-1">📍 Geospatial View</h3>
-            <p className="text-sm text-gray-400 mb-4">Properties colored by predicted price (green = low, red = high)</p>
-            <div className="rounded-xl overflow-hidden border border-gray-700/50" style={{ height: 400 }}>
+        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-1">📍 Geospatial View</h3>
+            <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">Properties colored by predicted price (green = low, red = high)</p>
+            <div className="map-container rounded-xl overflow-hidden border border-gray-700/50">
                 <MapContainer center={center} zoom={6} style={{ height: '100%', width: '100%' }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
@@ -82,7 +82,7 @@ const MapView = ({ data, outlierIndices = [] }) => {
                 </MapContainer>
             </div>
             {/* Legend */}
-            <div className="flex items-center justify-center gap-4 mt-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-3">
                 <div className="flex items-center gap-1.5 text-xs text-gray-400">
                     <div className="w-3 h-3 rounded-full bg-green-500" /> Low
                 </div>

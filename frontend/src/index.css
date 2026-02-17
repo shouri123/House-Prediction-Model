@@ -17,12 +17,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
   @apply bg-slate-900 text-white;
 }
 
@@ -45,6 +47,7 @@ body {
 /* Range input styling */
 input[type="range"] {
   -webkit-appearance: none;
+  appearance: none;
   height: 6px;
   border-radius: 3px;
   background: #374151;
@@ -52,8 +55,8 @@ input[type="range"] {
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: #3b82f6;
   cursor: pointer;
@@ -82,4 +85,97 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* Table improvements */
 table th {
   user-select: none;
+}
+
+/* ─── MOBILE RESPONSIVE ─── */
+
+/* Horizontal scroll for tables on mobile */
+.table-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Tab bar horizontal scroll on mobile */
+.tab-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tab-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Chart container responsive height */
+.chart-container {
+  width: 100%;
+  height: 280px;
+}
+
+@media (min-width: 640px) {
+  .chart-container {
+    height: 320px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chart-container {
+    height: 360px;
+  }
+}
+
+/* Map responsive height */
+.map-container {
+  height: 300px;
+}
+
+@media (min-width: 640px) {
+  .map-container {
+    height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .map-container {
+    height: 500px;
+  }
+}
+
+/* Mobile touch targets */
+@media (max-width: 639px) {
+  button {
+    min-height: 44px;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Prevent zoom on input focus in iOS */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Safe area insets for notched phones */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Prevent text overflow */
+.truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Smooth page transitions */
+* {
+  scroll-behavior: smooth;
 }

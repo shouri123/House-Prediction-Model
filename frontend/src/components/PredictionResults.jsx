@@ -84,17 +84,17 @@ const PredictionResults = ({ results, confidenceMargins = [], outlierIndices = [
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full overflow-hidden rounded-2xl border border-gray-700/50 bg-gray-800/60 backdrop-blur-sm shadow-xl"
+            className="w-full overflow-hidden rounded-xl sm:rounded-2xl border border-gray-700/50 bg-gray-800/60 backdrop-blur-sm shadow-xl"
         >
-            <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-400">
+            <div className="table-scroll-container">
+                <table className="w-full text-left text-xs sm:text-sm text-gray-400">
                     <thead className="bg-gray-700/50 text-xs uppercase text-gray-300">
                         <tr>
-                            <th className="px-4 py-3 text-gray-500">#</th>
+                            <th className="px-2 sm:px-4 py-2 sm:py-3 text-gray-500">#</th>
                             {headers.map((header) => (
                                 <th
                                     key={header}
-                                    className="px-4 py-3 font-medium cursor-pointer hover:text-white transition select-none"
+                                    className="px-2 sm:px-4 py-2 sm:py-3 font-medium cursor-pointer hover:text-white transition select-none whitespace-nowrap"
                                     onClick={() => handleSort(header)}
                                 >
                                     <span className="flex items-center gap-1">
@@ -121,12 +121,12 @@ const PredictionResults = ({ results, confidenceMargins = [], outlierIndices = [
                                         isOutlier ? 'bg-amber-500/5 border-l-2 border-l-amber-500' : ''
                                     }`}
                                 >
-                                    <td className="px-4 py-3 text-gray-600 text-xs">
+                                    <td className="px-2 sm:px-4 py-2 sm:py-3 text-gray-600 text-xs">
                                         {originalIndex + 1}
                                         {isOutlier && <span className="ml-1" title="Outlier">⚠️</span>}
                                     </td>
                                     {headers.map((header) => (
-                                        <td key={`${displayIndex}-${header}`} className="px-4 py-3 whitespace-nowrap">
+                                        <td key={`${displayIndex}-${header}`} className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                                             {formatCell(header, row[header], originalIndex)}
                                         </td>
                                     ))}
@@ -139,22 +139,22 @@ const PredictionResults = ({ results, confidenceMargins = [], outlierIndices = [
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex items-center justify-between px-6 py-3 border-t border-gray-700/50">
-                    <p className="text-sm text-gray-500">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-2 px-3 sm:px-6 py-2 sm:py-3 border-t border-gray-700/50">
+                    <p className="text-xs sm:text-sm text-gray-500">
                         Showing {page * ROWS_PER_PAGE + 1}–{Math.min((page + 1) * ROWS_PER_PAGE, data.length)} of {data.length}
                     </p>
                     <div className="flex gap-2">
                         <button
                             onClick={() => setPage((p) => Math.max(0, p - 1))}
                             disabled={page === 0}
-                            className="px-3 py-1 rounded-lg bg-gray-700/50 text-gray-300 text-sm disabled:opacity-30 hover:bg-gray-600/50"
+                            className="px-3 py-1.5 rounded-lg bg-gray-700/50 text-gray-300 text-xs sm:text-sm disabled:opacity-30 hover:bg-gray-600/50"
                         >
                             ← Prev
                         </button>
                         <button
                             onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                             disabled={page === totalPages - 1}
-                            className="px-3 py-1 rounded-lg bg-gray-700/50 text-gray-300 text-sm disabled:opacity-30 hover:bg-gray-600/50"
+                            className="px-3 py-1.5 rounded-lg bg-gray-700/50 text-gray-300 text-xs sm:text-sm disabled:opacity-30 hover:bg-gray-600/50"
                         >
                             Next →
                         </button>

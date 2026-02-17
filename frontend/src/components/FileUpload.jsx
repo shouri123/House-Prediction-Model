@@ -83,10 +83,10 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
 };
 
     return (
-        <div className="w-full max-w-xl mx-auto mt-10">
+        <div className="w-full max-w-md sm:max-w-xl mx-auto mt-6 sm:mt-10">
             <motion.div
                 className={cn(
-                    "border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors",
+                    "border-2 border-dashed rounded-xl p-6 sm:p-10 text-center cursor-pointer transition-colors",
                     isDragging ? "border-blue-500 bg-blue-500/10" : "border-gray-600 hover:border-gray-500 bg-gray-800/50"
                 )}
                 onDragOver={handleDragOver}
@@ -103,16 +103,16 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
                     accept=".csv,.json"
                     onChange={handleFileSelect}
                 />
-                <div className="flex flex-col items-center justify-center space-y-4">
-                    <div className="p-4 bg-gray-700/50 rounded-full">
-                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4">
+                    <div className="p-3 sm:p-4 bg-gray-700/50 rounded-full">
+                        <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                     </div>
-                    <div className="text-gray-300">
+                    <div className="text-sm sm:text-base text-gray-300">
                         <span className="font-semibold text-blue-400">Click to upload</span> or drag and drop
                     </div>
-                    <p className="text-sm text-gray-500">CSV or JSON (MAX. 10MB)</p>
+                    <p className="text-xs sm:text-sm text-gray-500">CSV or JSON (MAX. 10MB)</p>
                 </div>
             </motion.div>
         </div>

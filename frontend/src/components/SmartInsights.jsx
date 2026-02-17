@@ -12,17 +12,17 @@ const SmartInsights = ({ insights }) => {
     if (!insights || insights.length === 0) return null;
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6">
-            <h3 className="text-lg font-semibold text-white mb-1">🧠 Smart Insights</h3>
-            <p className="text-sm text-gray-400 mb-4">AI-generated analysis of your prediction data</p>
-            <div className="space-y-3">
+        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-1">🧠 Smart Insights</h3>
+            <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">AI-generated analysis of your prediction data</p>
+            <div className="space-y-2 sm:space-y-3">
                 {insights.map((insight, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className={`flex items-start gap-3 p-4 rounded-xl border ${typeStyles[insight.type] || typeStyles.info}`}
+                        className={`flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl border ${typeStyles[insight.type] || typeStyles.info}`}
                     >
                         <span className="text-xl flex-shrink-0 mt-0.5">{insight.icon}</span>
                         <div>

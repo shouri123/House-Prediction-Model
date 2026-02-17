@@ -18,19 +18,19 @@ const PredictedVsActual = ({ predictedVsActual, metrics }) => {
     const max = Math.max(...allValues);
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6">
+        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <div className="flex items-center justify-between mb-1">
-                <h3 className="text-lg font-semibold text-white">🎯 Predicted vs Actual</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-white">🎯 Predicted vs Actual</h3>
                 {metrics && (
-                    <span className="text-sm font-mono px-3 py-1 rounded-full bg-blue-500/20 text-blue-400">
+                    <span className="text-xs sm:text-sm font-mono px-2 sm:px-3 py-1 rounded-full bg-blue-500/20 text-blue-400">
                         R² = {metrics.r2.toFixed(3)}
                     </span>
                 )}
             </div>
-            <p className="text-sm text-gray-400 mb-4">Closer to the diagonal line = better accuracy</p>
+            <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">Closer to the diagonal line = better accuracy</p>
 
             {metrics && (
-                <div className="flex gap-4 mb-4">
+                <div className="flex flex-wrap gap-2 sm:gap-4 mb-3 sm:mb-4">
                     <div className="flex-1 bg-gray-900/50 rounded-xl p-3 text-center">
                         <p className="text-xs text-gray-400">MAE</p>
                         <p className="text-lg font-bold text-blue-400">{formatCurrency(metrics.mae)}</p>
@@ -46,7 +46,7 @@ const PredictedVsActual = ({ predictedVsActual, metrics }) => {
                 </div>
             )}
 
-            <div style={{ width: '100%', height: 320 }}>
+            <div className="chart-container">
                 <ResponsiveContainer>
                     <ScatterChart margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

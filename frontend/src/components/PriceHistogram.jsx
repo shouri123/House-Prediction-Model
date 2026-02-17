@@ -10,10 +10,10 @@ const PriceHistogram = ({ histogram }) => {
     }));
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6">
-            <h3 className="text-lg font-semibold text-white mb-1">📉 Price Distribution</h3>
-            <p className="text-sm text-gray-400 mb-4">Distribution of predicted house prices across ranges</p>
-            <div style={{ width: '100%', height: 320 }}>
+        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-1">📉 Price Distribution</h3>
+            <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">Distribution of predicted house prices across ranges</p>
+            <div className="chart-container">
                 <ResponsiveContainer>
                     <BarChart data={data} margin={{ top: 5, right: 20, left: 10, bottom: 60 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

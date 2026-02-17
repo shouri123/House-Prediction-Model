@@ -42,10 +42,10 @@ const IncomeScatter = ({ scatterData }) => {
     fullData.sort((a, b) => a.income - b.income);
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6">
+        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <div className="flex items-center justify-between mb-1">
-                <h3 className="text-lg font-semibold text-white">📈 Income vs Price</h3>
-                <span className={`text-sm font-mono px-3 py-1 rounded-full ${
+            <h3 className="text-base sm:text-lg font-semibold text-white">📈 Income vs Price</h3>
+                <span className={`text-xs sm:text-sm font-mono px-2 sm:px-3 py-1 rounded-full ${
                     Math.abs(correlation) > 0.7 ? 'bg-green-500/20 text-green-400' :
                     Math.abs(correlation) > 0.4 ? 'bg-yellow-500/20 text-yellow-400' :
                     'bg-red-500/20 text-red-400'
@@ -53,8 +53,8 @@ const IncomeScatter = ({ scatterData }) => {
                     r = {correlation.toFixed(3)}
                 </span>
             </div>
-            <p className="text-sm text-gray-400 mb-4">Median income is the strongest price predictor</p>
-            <div style={{ width: '100%', height: 320 }}>
+            <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">Median income is the strongest price predictor</p>
+            <div className="chart-container">
                 <ResponsiveContainer>
                     <ComposedChart data={fullData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
