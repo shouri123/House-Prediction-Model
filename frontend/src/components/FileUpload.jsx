@@ -50,21 +50,32 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
-            responseType: 'json',
         });
         let data = response.data;
+        console.log('Raw response type:', typeof data);
+        console.log('Raw response:', data);
+        
         // Handle cases where the response is a string (e.g. double-stringified JSON)
-        while (typeof data === 'string') {
+        let parseAttempts = 0;
+        while (typeof data === 'string' && parseAttempts < 5) {
             try {
                 data = JSON.parse(data);
+                parseAttempts++;
             } catch (e) {
                 console.error('Error parsing response data:', e);
                 break;
             }
         }
+        
+        console.log('Parsed response type:', typeof data);
+        console.log('Parsed response keys:', data ? Object.keys(data) : 'null');
+        console.log('data.data type:', data?.data ? typeof data.data : 'missing');
+        console.log('data.data length:', Array.isArray(data?.data) ? data.data.length : 'not array');
+        
         onUploadSuccess(data);
     } catch (error) {
         console.error('Error uploading file:', error);
+        console.error('Error response:', error.response?.data);
         const errorMessage = error.response?.data?.error || 'Error uploading file. Please try again.';
         alert(errorMessage);
         onUploadSuccess(null);

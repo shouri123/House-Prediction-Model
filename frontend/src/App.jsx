@@ -67,7 +67,14 @@ function App() {
 
     const handleUploadSuccess = (data) => {
         setLoading(false);
+        console.log('handleUploadSuccess received:', data);
+        console.log('data type:', typeof data);
         if (data) {
+            console.log('data keys:', Object.keys(data));
+            console.log('data.data exists:', !!data.data);
+            console.log('data.data is array:', Array.isArray(data.data));
+            console.log('data.graphs exists:', !!data.graphs);
+            console.log('data.insights exists:', !!data.insights);
             setResults(data);
             setActiveTab('overview');
             // Use feature importance from predict response if available
