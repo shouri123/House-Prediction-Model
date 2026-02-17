@@ -46,21 +46,20 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
     formData.append('file', file);
 
     try {
-        // Use relative path '/api' for Vercel deployment
-        let API_URL = import.meta.env.VITE_API_URL || '/api';
-        
-        // Remove the http/https prefix logic since we're using relative paths
-        const response = await axios.post(`${API_URL}/predict`, formData, {
+        const response = await axios.post(`${API_BASE_URL}/predict`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            responseType: 'json',
         });
         let data = response.data;
-        if (typeof data === 'string') {
+        // Handle cases where the response is a string (e.g. double-stringified JSON)
+        while (typeof data === 'string') {
             try {
                 data = JSON.parse(data);
             } catch (e) {
                 console.error('Error parsing response data:', e);
+                break;
             }
         }
         onUploadSuccess(data);
