@@ -62,6 +62,8 @@ def add_engineered_features(df):
         df['bedrooms_per_room'] = df['total_bedrooms'] / df['total_rooms']
     if 'population_per_household' not in df.columns:
         df['population_per_household'] = df['population'] / df['households']
+    # Replace NaN/inf from division by zero
+    df = df.replace([np.inf, -np.inf], np.nan).fillna(0)
     return df
 
 def get_feature_importance():
@@ -346,6 +348,9 @@ def predict():
                 'title': 'Model Accuracy',
                 'text': f'R² Score: {metrics["r2"]:.3f} | MAE: ${metrics["mae"]:,.0f} | RMSE: ${metrics["rmse"]:,.0f}'
             })
+
+        # Clean NaN/inf values before JSON serialization
+        df = df.replace([np.inf, -np.inf], np.nan).fillna(0)
 
         # Build response
         response_data = {
