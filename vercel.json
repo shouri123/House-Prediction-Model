@@ -1,28 +1,9 @@
 {
     "version": 2,
-    "buildCommand": "npm run build",
-    "builds": [
-        {
-            "src": "api/index.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLambdaSize": "50mb",
-                "runtime": "python3.11"
-            }
-        },
-        {
-            "src": "package.json",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "frontend/dist"
-            }
-        }
-    ],
+    "framework": "vite",
+    "buildCommand": "cd frontend && npm install && npm run build",
+    "outputDirectory": "frontend/dist",
     "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "/api/index.py"
-        },
         {
             "handle": "filesystem"
         },
@@ -31,5 +12,7 @@
             "dest": "/index.html"
         }
     ],
-    "outputDirectory": "frontend/dist"
+    "env": {
+        "VITE_API_URL": "https://housing-price-backend-production.up.railway.app"
+    }
 }
