@@ -1,18 +1,11 @@
 {
     "version": 2,
     "framework": "vite",
-    "buildCommand": "cd frontend && npm install && npm run build",
-    "outputDirectory": "frontend/dist",
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
     "routes": [
-        {
-            "handle": "filesystem"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
-        }
-    ],
-    "env": {
-        "VITE_API_URL": "https://housing-price-backend-production.up.railway.app"
-    }
+        { "handle": "filesystem" },
+        { "src": "/(.*)", "dest": "/index.html" }
+    ]
 }
