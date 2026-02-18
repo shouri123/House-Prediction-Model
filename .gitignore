@@ -58,8 +58,6 @@ frontend/.env
 # =========================
 *.log
 *.txt
-!requirements.txt
-!api/requirements.txt
 !backend/requirements.txt
 verification_success.png
 verification_failure.png
