@@ -1,12 +1,75 @@
-# California House Price Prediction App
+# 🏠 California House Price Prediction
 
-This project is a full-stack application that predicts median house values in California districts. It features a Machine Learning model exposed via a Flask API and a modern React frontend.
+A full-stack Machine Learning application that predicts median house values in California districts. Upload housing data and get instant price predictions with interactive visualizations.
 
-## 🏗️ Architecture
+## ✨ Features
 
-- **Backend:** Flask (Python) with Scikit-Learn. Handles model inference and data processing.
-- **Frontend:** React + Vite + TailwindCSS. Provides a user-friendly interface for uploading data and viewing predictions.
-- **Model:** Ridge Regression pipeline with feature engineering.
+- **CSV/JSON Upload** — Drag & drop housing data for batch predictions
+- **Single Property Prediction** — Predict price for individual properties via API
+- **Interactive Visualizations** — Price histograms, scatter plots, predicted vs actual charts, and geographic map views
+- **Smart Insights** — Auto-generated analysis of prediction patterns
+- **Scenario Simulator** — Adjust property features and see real-time price changes
+- **Export Tools** — Download predictions as CSV or PDF reports
+- **Confidence Intervals** — See prediction ranges alongside point estimates
+- **Outlier Detection** — Automatically flags unusual predictions
+
+## 🏗️ Tech Stack
+
+| Layer          | Technology                               |
+| -------------- | ---------------------------------------- |
+| **Frontend**   | React + Vite + TailwindCSS               |
+| **Backend**    | Flask (Python) + Flask-CORS              |
+| **ML Model**   | Scikit-Learn (Ridge Regression Pipeline) |
+| **Deployment** | Vercel (frontend) / Railway (backend)    |
+
+## 📂 Project Structure
+
+```
+House-Prediction-Model/
+├── backend/              # Flask API server
+│   ├── app.py            # Main API (health, predict, predict-single, model-info)
+│   ├── requirements.txt  # Python dependencies
+│   └── __init__.py
+├── frontend/             # React application
+│   ├── src/
+│   │   ├── components/   # UI components
+│   │   │   ├── FileUpload.jsx
+│   │   │   ├── PredictionResults.jsx
+│   │   │   ├── ScenarioSimulator.jsx
+│   │   │   ├── PriceHistogram.jsx
+│   │   │   ├── IncomeScatter.jsx
+│   │   │   ├── PredictedVsActual.jsx
+│   │   │   ├── MapView.jsx
+│   │   │   ├── FeatureImportance.jsx
+│   │   │   ├── SmartInsights.jsx
+│   │   │   ├── SummaryCards.jsx
+│   │   │   └── ExportTools.jsx
+│   │   ├── App.jsx       # Main application
+│   │   ├── config.js     # API configuration
+│   │   └── utils.js      # Helper utilities
+│   └── package.json
+├── api/                  # Vercel serverless entry point
+│   └── index.py
+├── data/                 # Datasets
+│   ├── Data_file - data_file.csv
+│   ├── sample_data.csv
+│   └── test_data.csv
+├── models/               # Trained ML model
+│   └── model.pkl
+├── notebooks/            # Jupyter notebooks
+│   └── House_Price_Prediction.ipynb
+├── scripts/              # Utility scripts
+│   └── predict.py
+├── tests/                # Test scripts
+│   ├── test_api.py
+│   ├── test_client.py
+│   └── test_railway.py
+├── app.py                # Backend entry point
+├── vercel.json           # Vercel deployment config
+├── .env.example          # Environment variable template
+├── DEPLOY.md             # Deployment guide
+└── README.md
+```
 
 ## 🚀 Getting Started
 
@@ -17,69 +80,85 @@ This project is a full-stack application that predicts median house values in Ca
 
 ### Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-folder>
-    ```
+1. **Clone the repository:**
 
-2.  **Setup Backend:**
-    ```bash
-    # Create virtual environment (optional but recommended)
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```bash
+   git clone https://github.com/shouri123/House-Prediction-Model.git
+   cd House-Prediction-Model
+   ```
 
-    # Install dependencies
-    pip install -r backend/requirements.txt
-    ```
+2. **Setup Backend:**
 
-3.  **Setup Frontend:**
-    ```bash
-    cd frontend
-    npm install
-    cd ..
-    ```
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate        # Windows
+   # source venv/bin/activate   # macOS/Linux
 
-4.  **Environment Variables:**
-    - Copy `.env.example` to `.env` in the root directory if needed, or set variables manually.
-    - Default `.env` is provided for local development.
+   pip install -r backend/requirements.txt
+   ```
+
+3. **Setup Frontend:**
+   ```bash
+   cd frontend
+   npm install
+   cd ..
+   ```
 
 ### Running Locally
 
-1.  **Start the Backend:**
-    ```bash
-    python app.py
-    ```
-    The backend runs on `http://localhost:5000`.
+1. **Start the Backend** (runs on `http://localhost:5000`):
 
-2.  **Start the Frontend:**
-    ```bash
-    cd frontend
-    npm run dev
-    ```
-    The frontend runs on `http://localhost:5173`.
+   ```bash
+   python app.py
+   ```
 
-3.  **Use the App:**
-    - Open `http://localhost:5173` in your browser.
-    - Upload a CSV or JSON file containing housing data.
-    - View predicted prices and visualizations.
+2. **Start the Frontend** (runs on `http://localhost:5173`):
 
-## 📦 Deployment
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
-This app is configured for deployment on **Render**.
-See [DEPLOY.md](DEPLOY.md) for detailed deployment instructions.
+3. **Open** `http://localhost:5173` and upload a CSV file with housing data.
 
-## 📂 Project Structure
+## 🔌 API Endpoints
 
-- `backend/`: Flask application and API logic.
-- `frontend/`: React application source code.
-- `model.pkl`: The trained machine learning model.
-- `scripts/`: Utility scripts (verification, etc.).
-- `render.yaml`: Infrastructure as Code for Render deployment.
+| Method | Endpoint          | Description                                 |
+| ------ | ----------------- | ------------------------------------------- |
+| `GET`  | `/health`         | Health check                                |
+| `GET`  | `/model-info`     | Model metadata & feature importance         |
+| `POST` | `/predict`        | Batch predictions from CSV/JSON file upload |
+| `POST` | `/predict-single` | Single property prediction from JSON body   |
+
+### Example — Single Prediction
+
+```bash
+curl -X POST http://localhost:5000/predict-single \
+  -H "Content-Type: application/json" \
+  -d '{
+    "longitude": -122.23,
+    "latitude": 37.88,
+    "housing_median_age": 30,
+    "total_rooms": 2000,
+    "total_bedrooms": 400,
+    "population": 800,
+    "households": 350,
+    "median_income": 5.0,
+    "ocean_proximity": "NEAR BAY"
+  }'
+```
 
 ## 📊 Model Details
 
-The model uses **Ridge Regression** with:
-- **Imputation**: Median strategy.
-- **Feature Engineering**: `rooms_per_household`, `bedrooms_per_room`, `population_per_household`.
-- **Performance**: RMSE ~69k, R2 ~0.64.
+- **Algorithm:** Ridge Regression with GridSearchCV hyperparameter tuning
+- **Preprocessing:** Median imputation + StandardScaler + OneHotEncoder
+- **Feature Engineering:** `rooms_per_household`, `bedrooms_per_room`, `population_per_household`
+- **Performance:** RMSE ~$69,000 | R² ~0.64
+
+## 📦 Deployment
+
+See [DEPLOY.md](DEPLOY.md) for deployment instructions on **Vercel** and **Render**.
+
+## 📄 License
+
+This project is open source and available for educational purposes.
