@@ -1,9 +1,66 @@
+# =========================
+# Python
+# =========================
 __pycache__/
-*.pyc
-node_modules/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
 dist/
-.env
+build/
+*.whl
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# =========================
+# Node.js
+# =========================
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS Files
+# =========================
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.local
+.env.*.local
+frontend/.env
+
+# =========================
+# Model Artifacts
+# =========================
 *.pkl
-!model.pkl
-.vscode/settings.json
+!models/model.pkl
+
+# =========================
+# Temp / Generated Files
+# =========================
+*.log
+*.txt
+!requirements.txt
+!api/requirements.txt
+!backend/requirements.txt
+verification_success.png
+verification_failure.png
+inspect_pickle_result.txt
