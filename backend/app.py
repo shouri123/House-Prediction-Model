@@ -17,7 +17,7 @@ CORS(app)
 # Configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
-MODEL_PATH = os.path.join(ROOT_DIR, 'model.pkl')
+MODEL_PATH = os.path.join(ROOT_DIR, 'models', 'model.pkl')
 REQUIRED_COLUMNS = [
     'longitude', 'latitude', 'housing_median_age', 'total_rooms',
     'total_bedrooms', 'population', 'households', 'median_income',
