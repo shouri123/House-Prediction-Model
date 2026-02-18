@@ -11,8 +11,8 @@ export default defineConfig({
         manualChunks: {
           recharts: ['recharts'],
           leaflet: ['leaflet', 'react-leaflet'],
-          pdf: ['jspdf', 'html2canvas'],
-          vendor: ['react', 'react-dom', 'framer-motion'],
+          pdf: ['jspdf'],
+          vendor: ['react', 'react-dom', 'framer-motion', 'axios'],
         },
       },
     },

@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import FileUpload from './components/FileUpload';
-import PredictionResults from './components/PredictionResults';
 import SummaryCards from './components/SummaryCards';
-import PriceHistogram from './components/PriceHistogram';
-import IncomeScatter from './components/IncomeScatter';
-import FeatureImportance from './components/FeatureImportance';
-import PredictedVsActual from './components/PredictedVsActual';
-import MapView from './components/MapView';
 import SmartInsights from './components/SmartInsights';
-import ScenarioSimulator from './components/ScenarioSimulator';
-import ExportTools from './components/ExportTools';
+import FeatureImportance from './components/FeatureImportance';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import API_BASE_URL from './config';
+
+// Lazy load heavy components (charts, map, PDF export)
+const PredictionResults = React.lazy(() => import('./components/PredictionResults'));
+const PriceHistogram = React.lazy(() => import('./components/PriceHistogram'));
+const IncomeScatter = React.lazy(() => import('./components/IncomeScatter'));
+const PredictedVsActual = React.lazy(() => import('./components/PredictedVsActual'));
+const MapView = React.lazy(() => import('./components/MapView'));
+const ScenarioSimulator = React.lazy(() => import('./components/ScenarioSimulator'));
+const ExportTools = React.lazy(() => import('./components/ExportTools'));
+
+const LazyFallback = () => (
+    <div className="flex items-center justify-center py-12">
+        <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+);
 
 const TABS = [
     { key: 'overview', label: '📊 Overview', icon: '📊' },
@@ -41,7 +49,7 @@ function App() {
             }
         };
         checkHealth();
-        const interval = setInterval(checkHealth, 10000);
+        const interval = setInterval(checkHealth, 30000);
         return () => clearInterval(interval);
     }, []);
 
@@ -67,17 +75,9 @@ function App() {
 
     const handleUploadSuccess = (data) => {
         setLoading(false);
-        console.log('handleUploadSuccess received:', data);
-        console.log('data type:', typeof data);
         if (data) {
-            console.log('data keys:', Object.keys(data));
-            console.log('data.data exists:', !!data.data);
-            console.log('data.data is array:', Array.isArray(data.data));
-            console.log('data.graphs exists:', !!data.graphs);
-            console.log('data.insights exists:', !!data.insights);
             setResults(data);
             setActiveTab('overview');
-            // Use feature importance from predict response if available
             if (data.feature_importance) {
                 setFeatureImportance(data.feature_importance);
             }
@@ -89,8 +89,6 @@ function App() {
 
     return (
         <div className="min-h-screen bg-slate-900 text-white selection:bg-blue-500/30">
-            {/* Background noise texture */}
-            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
 
             {/* Connection Status Badge */}
             <div className="fixed top-4 right-4 z-50">
@@ -174,69 +172,71 @@ function App() {
                         </div>
 
                         {/* Tab Content */}
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeTab}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {activeTab === 'overview' && (
-                                    <div className="space-y-6">
-                                        <SummaryCards stats={stats} />
-                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                            <PriceHistogram histogram={results.graphs?.histogram} />
-                                            <IncomeScatter scatterData={results.graphs?.scatter} />
+                        <Suspense fallback={<LazyFallback />}>
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.15 }}
+                                >
+                                    {activeTab === 'overview' && (
+                                        <div className="space-y-6">
+                                            <SummaryCards stats={stats} />
+                                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                <PriceHistogram histogram={results.graphs?.histogram} />
+                                                <IncomeScatter scatterData={results.graphs?.scatter} />
+                                            </div>
+                                            {featureImportance && (
+                                                <FeatureImportance importance={featureImportance} />
+                                            )}
                                         </div>
-                                        {featureImportance && (
-                                            <FeatureImportance importance={featureImportance} />
-                                        )}
-                                    </div>
-                                )}
+                                    )}
 
-                                {activeTab === 'table' && (
-                                    <PredictionResults
-                                        results={results}
-                                        confidenceMargins={results.confidence_margins || []}
-                                        outlierIndices={results.outlier_indices || []}
-                                    />
-                                )}
+                                    {activeTab === 'table' && (
+                                        <PredictionResults
+                                            results={results}
+                                            confidenceMargins={results.confidence_margins || []}
+                                            outlierIndices={results.outlier_indices || []}
+                                        />
+                                    )}
 
-                                {activeTab === 'charts' && (
-                                    <div className="space-y-6">
-                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                            <PriceHistogram histogram={results.graphs?.histogram} />
-                                            <IncomeScatter scatterData={results.graphs?.scatter} />
+                                    {activeTab === 'charts' && (
+                                        <div className="space-y-6">
+                                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                <PriceHistogram histogram={results.graphs?.histogram} />
+                                                <IncomeScatter scatterData={results.graphs?.scatter} />
+                                            </div>
+                                            {featureImportance && (
+                                                <FeatureImportance importance={featureImportance} />
+                                            )}
+                                            {results.predicted_vs_actual && (
+                                                <PredictedVsActual
+                                                    predictedVsActual={results.predicted_vs_actual}
+                                                    metrics={results.metrics}
+                                                />
+                                            )}
                                         </div>
-                                        {featureImportance && (
-                                            <FeatureImportance importance={featureImportance} />
-                                        )}
-                                        {results.predicted_vs_actual && (
-                                            <PredictedVsActual
-                                                predictedVsActual={results.predicted_vs_actual}
-                                                metrics={results.metrics}
-                                            />
-                                        )}
-                                    </div>
-                                )}
+                                    )}
 
-                                {activeTab === 'map' && (
-                                    <MapView
-                                        data={results.data}
-                                        outlierIndices={results.outlier_indices || []}
-                                    />
-                                )}
+                                    {activeTab === 'map' && (
+                                        <MapView
+                                            data={results.data}
+                                            outlierIndices={results.outlier_indices || []}
+                                        />
+                                    )}
 
-                                {activeTab === 'insights' && (
-                                    <SmartInsights insights={results.insights} />
-                                )}
+                                    {activeTab === 'insights' && (
+                                        <SmartInsights insights={results.insights} />
+                                    )}
 
-                                {activeTab === 'simulator' && (
-                                    <ScenarioSimulator />
-                                )}
-                            </motion.div>
-                        </AnimatePresence>
+                                    {activeTab === 'simulator' && (
+                                        <ScenarioSimulator />
+                                    )}
+                                </motion.div>
+                            </AnimatePresence>
+                        </Suspense>
                     </motion.div>
                 )}
 

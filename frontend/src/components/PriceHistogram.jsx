@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
-const PriceHistogram = ({ histogram }) => {
+const PriceHistogram = React.memo(({ histogram }) => {
     if (!histogram || !histogram.labels || !histogram.values) return null;
 
     const data = histogram.labels.map((label, i) => ({
@@ -10,7 +10,7 @@ const PriceHistogram = ({ histogram }) => {
     }));
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-800/90 rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <h3 className="text-base sm:text-lg font-semibold text-white mb-1">📉 Price Distribution</h3>
             <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">Distribution of predicted house prices across ranges</p>
             <div className="chart-container">
@@ -47,6 +47,6 @@ const PriceHistogram = ({ histogram }) => {
             </div>
         </div>
     );
-};
+});
 
 export default PriceHistogram;

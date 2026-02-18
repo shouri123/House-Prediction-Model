@@ -59,7 +59,7 @@ const ScenarioSimulator = () => {
     }, [inputs]);
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-800/90 rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <h3 className="text-base sm:text-lg font-semibold text-white mb-1">🎮 Scenario Simulator</h3>
             <p className="text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6">Adjust features and see how the predicted price changes in real-time</p>
 

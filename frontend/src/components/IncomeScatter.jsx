@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { calculateCorrelation, calculateTrendLine, formatCurrency } from '../utils';
 
-const IncomeScatter = ({ scatterData }) => {
+const IncomeScatter = React.memo(({ scatterData }) => {
     const { chartData, trendPoints, correlation } = useMemo(() => {
         if (!scatterData || !scatterData.x || !scatterData.y) {
             return { chartData: [], trendPoints: [], correlation: 0 };
@@ -42,7 +42,7 @@ const IncomeScatter = ({ scatterData }) => {
     fullData.sort((a, b) => a.income - b.income);
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-800/90 rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <div className="flex items-center justify-between mb-1">
             <h3 className="text-base sm:text-lg font-semibold text-white">📈 Income vs Price</h3>
                 <span className={`text-xs sm:text-sm font-mono px-2 sm:px-3 py-1 rounded-full ${
@@ -89,7 +89,7 @@ const IncomeScatter = ({ scatterData }) => {
             </div>
         </div>
     );
-};
+});
 
 export default IncomeScatter;
 

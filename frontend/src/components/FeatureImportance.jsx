@@ -7,7 +7,7 @@ const COLORS = [
     '#EF4444', '#EC4899', '#D946EF', '#A855F7', '#7C3AED', '#4F46E5'
 ];
 
-const FeatureImportance = ({ importance }) => {
+const FeatureImportance = React.memo(({ importance }) => {
     if (!importance || !importance.features || importance.features.length === 0) return null;
 
     const data = importance.features.map((name, i) => ({
@@ -16,7 +16,7 @@ const FeatureImportance = ({ importance }) => {
     }));
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-800/90 rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <h3 className="text-base sm:text-lg font-semibold text-white mb-1">🎯 Feature Importance</h3>
             <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">What drives the model's predictions</p>
             <div style={{ width: '100%', height: Math.max(280, data.length * 28) }}>
@@ -48,6 +48,6 @@ const FeatureImportance = ({ importance }) => {
             </div>
         </div>
     );
-};
+});
 
 export default FeatureImportance;

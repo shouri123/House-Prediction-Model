@@ -176,6 +176,6 @@ table th {
 }
 
 /* Smooth page transitions */
-* {
+html {
   scroll-behavior: smooth;
 }

@@ -9,7 +9,7 @@ const cards = [
     { key: 'min', label: 'Lowest Price', icon: '🔻', color: 'from-emerald-500 to-teal-500' },
 ];
 
-const SummaryCards = ({ stats }) => {
+const SummaryCards = React.memo(({ stats }) => {
     if (!stats) return null;
 
     const values = {
@@ -27,7 +27,7 @@ const SummaryCards = ({ stats }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-gray-700/50 bg-gray-800/60 backdrop-blur-sm p-3 sm:p-4 md:p-6"
+                    className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-gray-700/50 bg-gray-800/90 p-3 sm:p-4 md:p-6"
                 >
                     <div className={`absolute top-0 right-0 w-16 sm:w-24 h-16 sm:h-24 bg-gradient-to-br ${card.color} opacity-10 rounded-full -translate-y-6 translate-x-6`} />
                     <div className="flex items-start justify-between">
@@ -43,6 +43,6 @@ const SummaryCards = ({ stats }) => {
             ))}
         </div>
     );
-};
+});
 
 export default SummaryCards;

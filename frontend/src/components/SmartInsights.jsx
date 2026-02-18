@@ -8,11 +8,11 @@ const typeStyles = {
     error: 'border-red-500/30 bg-red-500/5',
 };
 
-const SmartInsights = ({ insights }) => {
+const SmartInsights = React.memo(({ insights }) => {
     if (!insights || insights.length === 0) return null;
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-800/90 rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <h3 className="text-base sm:text-lg font-semibold text-white mb-1">🧠 Smart Insights</h3>
             <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">AI-generated analysis of your prediction data</p>
             <div className="space-y-2 sm:space-y-3">
@@ -34,6 +34,6 @@ const SmartInsights = ({ insights }) => {
             </div>
         </div>
     );
-};
+});
 
 export default SmartInsights;

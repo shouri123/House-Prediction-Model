@@ -84,7 +84,7 @@ const PredictionResults = ({ results, confidenceMargins = [], outlierIndices = [
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full overflow-hidden rounded-xl sm:rounded-2xl border border-gray-700/50 bg-gray-800/60 backdrop-blur-sm shadow-xl"
+            className="w-full overflow-hidden rounded-xl sm:rounded-2xl border border-gray-700/50 bg-gray-800/90 shadow-xl"
         >
             <div className="table-scroll-container">
                 <table className="w-full text-left text-xs sm:text-sm text-gray-400">

@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { formatCurrency } from '../utils';
 
-const PredictedVsActual = ({ predictedVsActual, metrics }) => {
+const PredictedVsActual = React.memo(({ predictedVsActual, metrics }) => {
     if (!predictedVsActual) return null;
 
     const data = predictedVsActual.predicted.map((pred, i) => ({
@@ -18,7 +18,7 @@ const PredictedVsActual = ({ predictedVsActual, metrics }) => {
     const max = Math.max(...allValues);
 
     return (
-        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-800/90 rounded-xl sm:rounded-2xl border border-gray-700/50 p-3 sm:p-4 md:p-6">
             <div className="flex items-center justify-between mb-1">
                 <h3 className="text-base sm:text-lg font-semibold text-white">🎯 Predicted vs Actual</h3>
                 {metrics && (
@@ -85,6 +85,6 @@ const PredictedVsActual = ({ predictedVsActual, metrics }) => {
             </div>
         </div>
     );
-};
+});
 
 export default PredictedVsActual;
