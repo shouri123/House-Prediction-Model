@@ -8,7 +8,7 @@
     "runtime": "V2",
     "numReplicas": 1,
 
-    "startCommand": "gunicorn backend.app:app --bind 0.0.0.0:$PORT",
+    "startCommand": "sh -c 'gunicorn backend.app:app --bind 0.0.0.0:$PORT'",
     "sleepApplication": false,
     "ipv6EgressEnabled": false,
     "multiRegionConfig": {
