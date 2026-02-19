@@ -174,8 +174,8 @@ def generate_graph_data(df):
     # 2. Income vs Price Scatter
     if 'median_income' in df.columns and 'predicted_price' in df.columns:
         # Downsample if too many points to avoid lag
-        if len(df) > 1000:
-            sample_df = df.sample(1000, random_state=42)
+        if len(df) > 500:
+            sample_df = df.sample(500, random_state=42)
         else:
             sample_df = df
             

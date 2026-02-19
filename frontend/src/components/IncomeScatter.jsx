@@ -82,8 +82,8 @@ const IncomeScatter = React.memo(({ scatterData }) => {
                                 return [value, name];
                             }}
                         />
-                        <Scatter dataKey="price" fill="#8B5CF6" fillOpacity={0.6} r={3} />
-                        <Line dataKey="trend" stroke="#F59E0B" strokeWidth={2} dot={false} strokeDasharray="5 5" />
+                        <Scatter dataKey="price" fill="#8B5CF6" fillOpacity={0.6} r={3} animationDuration={1000} />
+                        <Line dataKey="trend" stroke="#F59E0B" strokeWidth={2} dot={false} strokeDasharray="5 5" animationDuration={1000} />
                     </ComposedChart>
                 </ResponsiveContainer>
             </div>

@@ -34,7 +34,7 @@ const PriceHistogram = React.memo(({ histogram }) => {
                             }}
                             formatter={(value) => [`${value} properties`, 'Count']}
                         />
-                        <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                        <Bar dataKey="count" radius={[6, 6, 0, 0]} animationDuration={1500} animationEasing="ease-out">
                             {data.map((_, index) => (
                                 <Cell
                                     key={index}
