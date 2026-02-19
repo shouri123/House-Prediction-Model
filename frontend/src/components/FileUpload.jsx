@@ -46,11 +46,7 @@ const FileUpload = ({ onUploadSuccess, onUploadStart }) => {
     formData.append('file', file);
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/predict`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+        const response = await axios.post(`${API_BASE_URL}/predict`, formData);
         let data = response.data;
         console.log('Raw response type:', typeof data);
         console.log('Raw response:', data);
