@@ -164,11 +164,11 @@ def generate_graph_data(df):
         
         # Add summary stats
         graphs['summary_stats'] = {
-            'count': int(len(prices)),
-            'mean': float(prices.mean()),
-            'std': float(prices.std()),
-            'min': float(prices.min()),
-            'max': float(prices.max())
+            'total_properties': int(len(prices)),
+            'avg_price': float(prices.mean()),
+            'std_dev': float(prices.std()),
+            'min_price': float(prices.min()),
+            'max_price': float(prices.max())
         }
 
     # 2. Income vs Price Scatter
