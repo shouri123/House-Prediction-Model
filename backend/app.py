@@ -61,15 +61,46 @@ def get_feature_importance():
     """Extracts feature importance from the model pipeline if available."""
     try:
         if model and hasattr(model, 'named_steps'):
-            # Assuming 'model' step is the regressor (Ridge/LinearRegression)
+            # 1. Get the Regressor
             regressor = model.named_steps.get('model') or model.named_steps.get('regressor')
-            if hasattr(regressor, 'coef_'):
-                # This is a simplification. Ideally, we map names to coefs.
-                # For now, return top absolute coefficients if we can't map names easily without preprocessor
-                return list(regressor.coef_[:10]) 
+            if not hasattr(regressor, 'coef_'):
+                return {}
+
+            # 2. Get Feature Names
+            feature_names = []
+            preprocessor = model.named_steps.get('preprocessing') or model.named_steps.get('preprocessor')
+            
+            if preprocessor:
+                try:
+                    feature_names = list(preprocessor.get_feature_names_out())
+                except Exception:
+                    logger.warning("Could not get feature names from preprocessor")
+            
+            coefs = regressor.coef_
+            
+            # Fallback if names are missing or length mismatch
+            if len(feature_names) != len(coefs):
+                feature_names = [f"Feature {i}" for i in range(len(coefs))]
+
+            # 3. Create List and Sort by absolute importance
+            features_data = []
+            for name, coef in zip(feature_names, coefs):
+                 features_data.append({'name': name, 'value': coef, 'abs_value': abs(coef)})
+            
+            # Sort by magnitude (absolute value) descending
+            features_data.sort(key=lambda x: x['abs_value'], reverse=True)
+            
+            # Take top 15
+            top_features = features_data[:15]
+            
+            return {
+                'features': [item['name'] for item in top_features],
+                'importance': [item['value'] for item in top_features]
+            }
+
     except Exception as e:
         logger.warning(f"Could not extract feature importance: {e}")
-    return []
+    return {}
 
 def estimate_confidence_intervals(predictions):
     """Generates dummy confidence intervals for demonstration."""
