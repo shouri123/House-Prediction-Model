@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='')
+CORS(app)
 
 @app.route('/')
 def serve_frontend():
