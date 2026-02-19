@@ -92,26 +92,98 @@ def detect_outliers(df, predictions):
 def generate_insights(df, predictions, importance):
     """Generates text insights based on data."""
     insights = []
+    
+    # 1. Average Price
     avg_price = np.mean(predictions)
     insights.append({
         'type': 'info',
         'icon': '💰',
         'title': 'Average Prediction',
-        'text': f"The average predicted house value is ${avg_price:,.2f}"
+        'text': f"The average predicted house value is ${avg_price:,.2f}."
     })
+
+    # 2. Price Range
+    min_price = np.min(predictions)
+    max_price = np.max(predictions)
+    insights.append({
+        'type': 'success',
+        'icon': '📊',
+        'title': 'Price Range',
+        'text': f"Properties range from ${min_price:,.0f} to ${max_price:,.0f}."
+    })
+
+    # 3. High Value Area Analysis (if ocean_proximity exists)
+    if 'ocean_proximity' in df.columns:
+        # Create a temp df for aggregation
+        temp_df = df.copy()
+        temp_df['predicted_price'] = predictions
+        expensive_loc = temp_df.groupby('ocean_proximity')['predicted_price'].mean().idxmax()
+        insights.append({
+            'type': 'warning',
+            'icon': '🌊',
+            'title': 'Prime Location',
+            'text': f"Properties in '{expensive_loc}' tend to have the highest predicted values."
+        })
+
+    # 4. Income Correlation
+    if 'median_income' in df.columns:
+        correlation = np.corrcoef(df['median_income'], predictions)[0, 1]
+        strength = "strong" if abs(correlation) > 0.7 else "moderate" if abs(correlation) > 0.4 else "weak"
+        direction = "positive" if correlation > 0 else "negative"
+        insights.append({
+            'type': 'info',
+            'icon': '📈',
+            'title': 'Income Factor',
+            'text': f"There is a {strength} {direction} correlation ({correlation:.2f}) between income and house value."
+        })
+
     return insights
 
 def generate_graph_data(df):
     """Generates data for frontend charts."""
-    # Return simple distribution data for histograms
     graphs = {}
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
-    for col in numeric_cols:
-        hist, bin_edges = np.histogram(df[col].dropna(), bins=10)
-        graphs[col] = {
-            'labels': [f"{int(edge)}" for edge in bin_edges[:-1]],
+
+    # 1. Price Histogram
+    # We need to bin the predicted prices
+    if 'predicted_price' in df.columns:
+        prices = df['predicted_price'].dropna()
+        # Create histogram with 15 bins
+        hist, bin_edges = np.histogram(prices, bins=15)
+        
+        # Format labels as ranges "100k-200k"
+        labels = []
+        for i in range(len(bin_edges) - 1):
+            start = bin_edges[i] / 1000
+            end = bin_edges[i+1] / 1000
+            labels.append(f"${int(start)}k-${int(end)}k")
+            
+        graphs['histogram'] = {
+            'labels': labels,
             'values': hist.tolist()
         }
+        
+        # Add summary stats
+        graphs['summary_stats'] = {
+            'count': int(len(prices)),
+            'mean': float(prices.mean()),
+            'std': float(prices.std()),
+            'min': float(prices.min()),
+            'max': float(prices.max())
+        }
+
+    # 2. Income vs Price Scatter
+    if 'median_income' in df.columns and 'predicted_price' in df.columns:
+        # Downsample if too many points to avoid lag
+        if len(df) > 1000:
+            sample_df = df.sample(1000, random_state=42)
+        else:
+            sample_df = df
+            
+        graphs['scatter'] = {
+            'x': sample_df['median_income'].tolist(),
+            'y': sample_df['predicted_price'].tolist()
+        }
+
     return graphs
 
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='')
