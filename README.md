@@ -1,4 +1,4 @@
-# 🏠 California House Price Prediction
+# 🏠 House Price Prediction
 
 A full-stack Machine Learning application that predicts median house values in California districts. Upload housing data and get instant price predictions with interactive visualizations.
 
